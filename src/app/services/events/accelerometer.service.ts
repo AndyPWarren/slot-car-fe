@@ -11,7 +11,7 @@ export class Orientation {
     y: Color;
 }
 @Injectable()
-export class EventsService {
+export class AccelerometerService {
     private maxX = 90;
     private maxY = 180;
     public orientationStream: BehaviorSubject<Orientation> = new BehaviorSubject(

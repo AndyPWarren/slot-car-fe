@@ -1,4 +1,4 @@
-import { EventsService, Orientation } from './../services/events/events.service';
+import { AccelerometerService, Orientation } from './../services/events/accelerometer.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild, ElementRef, AfterViewInit, Input, OnInit } from '@angular/core';
 import "rxjs/add/observable/timer";
@@ -24,7 +24,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     private xIndex = 0
     private eventsSub: Subscription;
 
-    constructor(private events: EventsService) { }
+    constructor(private events: AccelerometerService) { }
 
     ngAfterViewInit(): void {
         this.createCanvas();

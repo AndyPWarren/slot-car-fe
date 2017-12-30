@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { EventsService } from './events.service';
+import { AccelerometerService } from './accelerometer.service';
 
 describe('EventsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EventsService]
+      providers: [AccelerometerService]
     });
   });
 
-  it('should be created', inject([EventsService], (service: EventsService) => {
+  it('should be created', inject([AccelerometerService], (service: AccelerometerService) => {
     expect(service).toBeTruthy();
   }));
 });

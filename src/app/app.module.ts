@@ -1,5 +1,5 @@
 import { SocketService } from './services/socket/socket.service';
-import { EventsService } from './services/events/events.service';
+import { AccelerometerService } from './services/events/accelerometer.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -17,7 +17,7 @@ import { HttpModule } from '@angular/http';
   imports: [
     BrowserModule
   ],
-  providers: [EventsService, SocketService],
+  providers: [AccelerometerService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
