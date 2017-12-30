@@ -1,5 +1,5 @@
 import { SocketService } from './services/socket/socket.service';
-import { AccelerometerService } from './services/events/accelerometer.service';
+import { AccelerometerService } from './services/accelerometer/accelerometer.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 

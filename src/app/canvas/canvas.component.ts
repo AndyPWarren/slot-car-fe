@@ -1,4 +1,4 @@
-import { AccelerometerService, Orientation } from './../services/events/accelerometer.service';
+import { AccelerometerService, Orientation } from './../services/accelerometer/accelerometer.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild, ElementRef, AfterViewInit, Input, OnInit } from '@angular/core';
 import "rxjs/add/observable/timer";
