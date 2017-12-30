@@ -22,22 +22,22 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     private cx: CanvasRenderingContext2D;
     private prevPos: Pos[];
     private xIndex = 0
-    private eventsSub: Subscription;
+    private accelerometerSub: Subscription;
 
-    constructor(private events: AccelerometerService) { }
+    constructor(private accelerometerService: AccelerometerService) { }
 
     ngAfterViewInit(): void {
         this.createCanvas();
         const initPos: Pos = { x: 0, y: this.rect.height }
         this.prevPos = [initPos, initPos];
-        this.eventsSub = this.events.orientationStream.subscribe((event) => this.eventStreamHandler(event));
+        this.accelerometerSub = this.accelerometerService.orientationStream.subscribe((event) => this.accelerometerHandler(event));
     }
 
     ngOnDestroy(): void {
-        this.eventsSub.unsubscribe();
+        this.accelerometerSub.unsubscribe();
     }
 
-    eventStreamHandler(event: Orientation) {
+    accelerometerHandler(event: Orientation) {
         const currentX = this.createCurrentPos(event.x.value),
               currentY = this.createCurrentPos(event.y.value);
         this.drawOnCanvas(currentY, this.prevPos[0], event.y.color);
