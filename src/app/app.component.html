@@ -1,2 +1,6 @@
 <h1>Phone Sensors</h1>
 <app-canvas></app-canvas>
+<p>Socket is 
+    <span *ngIf="socketState">CONNECTED</span>
+    <span *ngIf="!socketState">DISCONNECTED</span>
+</p>

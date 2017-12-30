@@ -1,3 +1,4 @@
+import { SocketService } from './services/socket/socket.service';
 import { EventsService } from './services/events/events.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -5,6 +6,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { CanvasComponent } from './canvas/canvas.component';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -15,7 +17,7 @@ import { CanvasComponent } from './canvas/canvas.component';
   imports: [
     BrowserModule
   ],
-  providers: [EventsService],
+  providers: [EventsService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

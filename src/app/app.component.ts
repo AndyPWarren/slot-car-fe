@@ -1,7 +1,9 @@
+import { SocketService } from './services/socket/socket.service';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/observable/fromEvent"
 import { ElementRef } from '@angular/core/src/linker/element_ref';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'app-root',
@@ -9,20 +11,12 @@ import { ElementRef } from '@angular/core/src/linker/element_ref';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    private maxX = 90;
-    private maxY = 180;
-    public event: Observable<number>;
+    public socketState: boolean;
+    constructor(private socketService: SocketService) {}
+    
     ngOnInit(): void {
-        
-        this.event = Observable.fromEvent(window, "deviceorientation")
-        this.event.subscribe((event: any) => {
-            const x = event.gamma;
-            const y = event.beta;
-            console.log(this.mapToRange(x, this.maxX))
-        });
-    }
-
-    private mapToRange(val: number, max: number): number {
-        return Math.abs(val) / max
+        this.socketService.connected.subscribe((connected) => {
+            this.socketState = connected;
+        })
     }
 }
