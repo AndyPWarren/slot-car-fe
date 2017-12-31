@@ -1,6 +1,24 @@
 <h1>Phone Sensors</h1>
+<div>
+    <mat-form-field>
+        <mat-select placeholder="Colour for X axis" [(value)]="x">
+            <mat-option *ngFor="let led of leds" (click)="setConfig()" [value]="led">
+                {{ led }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Colour for Y axis" [(value)]="y">
+            <mat-option *ngFor="let led of leds" (click)="setConfig()" [value]="led">
+                {{ led }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
 <app-canvas></app-canvas>
-<p>Socket is 
+
+<p>Socket is
     <span *ngIf="socketState">CONNECTED</span>
     <span *ngIf="!socketState">DISCONNECTED</span>
 </p>

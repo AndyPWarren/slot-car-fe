@@ -4,6 +4,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, Input, OnInit } from '
 import "rxjs/add/observable/timer";
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
+import { ColorConstants } from './color.constants';
 class Pos {
     x: number;
     y: number;
@@ -24,7 +25,8 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     private xIndex = 0
     private accelerometerSub: Subscription;
 
-    constructor(private accelerometerService: AccelerometerService) { }
+    constructor(private accelerometerService: AccelerometerService,
+        private colors: ColorConstants) { }
 
     ngAfterViewInit(): void {
         this.createCanvas();
@@ -86,12 +88,9 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     }
 
     drawOnCanvas(currentPos: Pos, prevPos: Pos, color: string) {
-        if (color === 'red') {
-            this.cx.strokeStyle = '#FF0000';
-        } else if (color === 'green') {
-            this.cx.strokeStyle = '#00FF00';
-        } else {
-            this.cx.strokeStyle = '#000';
+        this.cx.strokeStyle = '#000';
+        if (this.colors.map.has(color)) {
+            this.cx.strokeStyle = this.colors.map.get(color);
         }
         this.cx.beginPath();
         // we're drawing lines so we need a previous position

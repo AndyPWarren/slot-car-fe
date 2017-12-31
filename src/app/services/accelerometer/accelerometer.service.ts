@@ -10,25 +10,36 @@ export class Orientation {
     x: Color;
     y: Color;
 }
+export class Config {
+    x: string;
+    y: string;
+}
 @Injectable()
 export class AccelerometerService {
     private maxX = 90;
     private maxY = 180;
-    public orientationStream: BehaviorSubject<Orientation> = new BehaviorSubject(
-        {
-            x: {color: 'red', value: 0},
-            y: {color: 'green', value: 0}
-        }
-    );
+    private current: Orientation = {
+        x: {color: 'red', value: 0},
+        y: {color: 'green', value: 0}
+    };
+    public orientationStream: BehaviorSubject<Orientation> = new BehaviorSubject(this.current);
+
     constructor(private socketService: SocketService) {
         Observable.fromEvent(window, "deviceorientation")
             .subscribe((event: any) => {
-                const current = this.orientationStream.getValue();
-                current.x.value = this.mapToRange(event.gamma, this.maxX);
-                current.y.value = this.mapToRange(event.beta, this.maxY)
-                this.orientationStream.next(current);
-                this.sendToSocket(current);
+                this.current.x.value = this.mapToRange(event.gamma, this.maxX);
+                this.current.y.value = this.mapToRange(event.beta, this.maxY)
+                this.orientationStream.next(this.current);
+                this.sendToSocket(this.current);
             });
+    }
+
+    init(config: Config) {
+        this.current = {
+            x: {color: config.x, value: 0},
+            y: {color: config.y, value: 0}
+        }
+        console.log(this.current)
     }
 
     sendToSocket(val: Orientation) {
