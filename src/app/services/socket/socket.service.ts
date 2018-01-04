@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Color, AccelerometerService } from './../accelerometer/accelerometer.service';
 import { Injectable } from '@angular/core';
@@ -6,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SocketService {
-    private url = 'ws://192.168.1.10:9090';
+    private url = `ws://${environment.host}:${environment.port}`;
     private websocket: WebSocket;
     public connected: BehaviorSubject<boolean> = new BehaviorSubject(false); 
 
