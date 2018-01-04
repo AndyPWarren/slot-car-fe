@@ -1,5 +1,13 @@
-<h1>Socket Streamer</h1>
+<h1>
+    Socket Streamer</h1>
 <div>
+    <form #myForm="ngForm">
+        <mat-form-field>
+            <input matInput name="message" [disabled]="!socketState" [(ngModel)]="message" placeholder="Message">
+        </mat-form-field>
+
+        <button (click)="sendMessage(myForm.message)" [disabled]="!socketState" mat-raised-button>send</button>
+    </form>
     <mat-form-field>
         <mat-select placeholder="Colour for X axis" [(value)]="x">
             <mat-option *ngFor="let led of leds" (click)="setConfig()" [value]="led">

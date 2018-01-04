@@ -34,7 +34,7 @@ export class SocketService {
     }
 
     private onMessage(evt) {
-        this.log(evt);
+        this.log(evt.data);
     }
 
     private onError(evt) {

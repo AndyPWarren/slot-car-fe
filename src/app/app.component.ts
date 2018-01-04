@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
     public x: string;
     public y: string;
 
+    public message: string
+
     constructor(private socketService: SocketService,
         private ledsService: LedsService,
         private accelerometerService: AccelerometerService) { }
@@ -40,5 +42,11 @@ export class AppComponent implements OnInit {
             x: this.x,
             y: this.y
         });
+    }
+
+    sendMessage() {
+        // console.log(this.message)
+        this.socketService.send(this.message);
+        this.message = '';
     }
 }
