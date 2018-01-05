@@ -43,8 +43,10 @@ export class AccelerometerService {
     }
 
     sendToSocket(val: Orientation) {
-        this.socketService.send(`${val.x.color}=${val.x.value}`);
-        this.socketService.send(`${val.y.color}=${val.y.value}`);
+        if (val.x.color) {
+            this.socketService.send(`${val.x.color}=${val.x.value}`);
+            this.socketService.send(`${val.y.color}=${val.y.value}`);
+        }
     }
 
     private mapToRange(val: number, max: number): number {
