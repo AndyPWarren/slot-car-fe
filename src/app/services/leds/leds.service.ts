@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise'
 
 @Injectable()
 export class LedsService {
-    private url = `http://${environment.host}:${environment.port}/leds`
+    private url = `http://${environment.host}:${environment.port}/lanes`
     constructor(private http: Http) { }
 
     get(): Promise<string[]> {
