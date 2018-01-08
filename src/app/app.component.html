@@ -1,29 +1,16 @@
 <h1>
     Socket Streamer</h1>
 <div>
-    <form #myForm="ngForm">
-        <mat-form-field>
-            <input matInput name="message" [disabled]="!socketState" [(ngModel)]="message" placeholder="Message">
-        </mat-form-field>
-
-        <button (click)="sendMessage(myForm.message)" [disabled]="!socketState" mat-raised-button>send</button>
-    </form>
     <mat-form-field>
-        <mat-select placeholder="Colour for X axis" [(value)]="x">
-            <mat-option *ngFor="let led of leds" (click)="setConfig()" [value]="led">
-                {{ led }}
+        <mat-select placeholder="Select control axis" [(value)]="selectedControlAxis">
+            <mat-option *ngFor="let axis of controlAxis" (click)="setConfig()" [value]="axis">
+                {{ axis }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
-        <mat-select placeholder="Colour for Y axis" [(value)]="y">
-            <mat-option *ngFor="let led of leds" (click)="setConfig()" [value]="led">
-                {{ led }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <mat-slider min="0" max="1" step="0.01" value="0" [(ngModel)]="value" (click)="send()"></mat-slider>
 </div>
-
+<p>you are in lane: {{lane}}</p>
 <app-canvas></app-canvas>
 
 <p>Socket is

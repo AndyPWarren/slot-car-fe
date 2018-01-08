@@ -1,52 +1,49 @@
+import { Subscription } from 'rxjs/Subscription';
 import { SocketService } from './../socket/socket.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from "rxjs/BehaviorSubject"
-export class Color {
-    color: string;
-    value: number;
-}
-export class Orientation {
-    x: Color;
-    y: Color;
-}
-export class Config {
-    x: string;
-    y: string;
-}
+
+export type Axis = 'x' | 'y';
 @Injectable()
 export class AccelerometerService {
     private maxX = 90;
     private maxY = 180;
-    private current: Orientation = {
-        x: {color: 'red', value: 0},
-        y: {color: 'green', value: 0}
-    };
-    public orientationStream: BehaviorSubject<Orientation> = new BehaviorSubject(this.current);
-
+    public orientationStream: BehaviorSubject<number> = new BehaviorSubject(0);
+    sub: Subscription
+    public _axis: Axis
     constructor(private socketService: SocketService) {
-        Observable.fromEvent(window, "deviceorientation")
-            .subscribe((event: any) => {
-                this.current.x.value = this.mapToRange(event.gamma, this.maxX);
-                this.current.y.value = this.mapToRange(event.beta, this.maxY)
-                this.orientationStream.next(this.current);
-                this.sendToSocket(this.current);
-            });
+        
     }
 
-    init(config: Config) {
-        this.current = {
-            x: {color: config.x, value: 0},
-            y: {color: config.y, value: 0}
+    watchSensor() {
+        if (this.sub) {
+            this.sub.unsubscribe();
         }
-        console.log(this.current)
+        if (this._axis === 'x') {
+            this.sub = Observable.fromEvent(window, "deviceorientation")
+                .subscribe((event: DeviceOrientationEvent) => this.xHandler(event))
+        } else {
+            this.sub = Observable.fromEvent(window, "deviceorientation")
+                .subscribe((event: DeviceOrientationEvent) => this.yHandler(event))
+        }
     }
 
-    sendToSocket(val: Orientation) {
-        if (val.x.color) {
-            this.socketService.send(`${val.x.color}=${val.x.value}`);
-            this.socketService.send(`${val.y.color}=${val.y.value}`);
-        }
+    private xHandler(event: DeviceOrientationEvent) {
+        const val = this.mapToRange(event.gamma, this.maxX)
+        this.orientationStream.next(val);
+        this.socketService.sendValue(val)
+    }
+
+    private yHandler(event: DeviceOrientationEvent) {
+        const val = this.mapToRange(event.beta, this.maxX)
+        this.orientationStream.next(val);
+        this.socketService.sendValue(val)
+    }
+
+    set axis(axis: Axis) {
+        this._axis = axis
+        this.watchSensor();
     }
 
     private mapToRange(val: number, max: number): number {

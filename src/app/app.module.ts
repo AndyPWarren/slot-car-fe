@@ -15,7 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule} from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,16 +25,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         CanvasComponent
     ],
     imports: [
+        BrowserAnimationsModule,
         BrowserModule,
         FormsModule,
         HttpModule,
-        BrowserAnimationsModule,
         MatOptionModule,
         MatSelectModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        ReactiveFormsModule
+        MatSliderModule
     ],
     providers: [
         AccelerometerService,

@@ -1,4 +1,4 @@
-import { AccelerometerService, Orientation } from './../services/accelerometer/accelerometer.service';
+import { AccelerometerService } from './../services/accelerometer/accelerometer.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild, ElementRef, AfterViewInit, Input, OnInit } from '@angular/core';
 import "rxjs/add/observable/timer";
@@ -21,7 +21,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     private canvasEl: HTMLCanvasElement;
     private rect: ClientRect;
     private cx: CanvasRenderingContext2D;
-    private prevPos: Pos[];
+    private prevPos: Pos;
     private xIndex = 0
     private accelerometerSub: Subscription;
 
@@ -31,7 +31,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.createCanvas();
         const initPos: Pos = { x: 0, y: this.rect.height }
-        this.prevPos = [initPos, initPos];
+        this.prevPos = initPos;
         this.accelerometerSub = this.accelerometerService.orientationStream.subscribe((event) => this.accelerometerHandler(event));
     }
 
@@ -39,16 +39,14 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
         this.accelerometerSub.unsubscribe();
     }
 
-    accelerometerHandler(event: Orientation) {
-        const currentX = this.createCurrentPos(event.x.value),
-              currentY = this.createCurrentPos(event.y.value);
-        this.drawOnCanvas(currentY, this.prevPos[0], event.y.color);
-        this.drawOnCanvas(currentX, this.prevPos[1], event.x.color);
+    accelerometerHandler(event: number) {
+        const current = this.createCurrentPos(event)
+        this.drawOnCanvas(current, this.prevPos);
         if (this.xIndex === this.canvasEl.width) {
             this.resizeCanvasWidth(this.canvasEl.width + this.wrapper.nativeElement.clientWidth);
         }
         this.xIndex += 1;
-        this.prevPos = [currentY, currentX];
+        this.prevPos = current;
     }
 
     createCurrentPos(y: number): Pos {
@@ -87,11 +85,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
         this.scrollWrapper();
     }
 
-    drawOnCanvas(currentPos: Pos, prevPos: Pos, color: string) {
-        this.cx.strokeStyle = '#000';
-        if (this.colors.map.has(color)) {
-            this.cx.strokeStyle = this.colors.map.get(color);
-        }
+    drawOnCanvas(currentPos: Pos, prevPos: Pos) {
         this.cx.beginPath();
         // we're drawing lines so we need a previous position
         if (prevPos) {

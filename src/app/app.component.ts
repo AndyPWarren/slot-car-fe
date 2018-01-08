@@ -1,4 +1,4 @@
-import { AccelerometerService } from './services/accelerometer/accelerometer.service';
+import { AccelerometerService, Axis } from './services/accelerometer/accelerometer.service';
 import { LedsService } from './services/leds/leds.service';
 import { SocketService } from './services/socket/socket.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -14,9 +14,10 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AppComponent implements OnInit {
     public socketState: boolean;
-    public leds: string[];
-    public x: string;
-    public y: string;
+    public lane: string;
+    public controlAxis: Axis[] = ['x', 'y'];
+    public selectedControlAxis: Axis = this.controlAxis[1];
+    public value = 0;
 
     public message: string
 
@@ -28,25 +29,19 @@ export class AppComponent implements OnInit {
         this.socketService.connected.subscribe((connected) => {
             this.socketState = connected;
         });
-        this.ledsService.get().then((res) => {
-            this.leds = res;
-            this.x = this.leds[0];
-            this.y = this.leds[1];
-            this.setConfig();
-        })
+        this.socketService.channel.subscribe((channel) => {
+            this.lane = channel;
+        });
+        this.setConfig();
     }
 
     setConfig() {
-        console.log('setting config')
-        this.accelerometerService.init({
-            x: this.x,
-            y: this.y
-        });
+        console.log('setting config axis is', this.selectedControlAxis)
+        this.accelerometerService.axis = this.selectedControlAxis;
     }
 
-    sendMessage() {
-        // console.log(this.message)
-        this.socketService.send(this.message);
-        this.message = '';
+    send() {
+        console.log(this.value)
+        this.socketService.sendValue(this.value);
     }
 }

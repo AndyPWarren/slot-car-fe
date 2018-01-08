@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Color, AccelerometerService } from './../accelerometer/accelerometer.service';
+import { AccelerometerService } from './../accelerometer/accelerometer.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 export class SocketService {
     private url = `ws://${environment.host}:${environment.port}`;
     private websocket: WebSocket;
+    public channel: BehaviorSubject<string> = new BehaviorSubject('');
     public connected: BehaviorSubject<boolean> = new BehaviorSubject(false); 
 
     constructor() {
@@ -34,7 +35,13 @@ export class SocketService {
     }
 
     private onMessage(evt) {
-        this.log(evt.data);
+        const split = evt.data.split('channel=');
+        if (split.length > 1) {
+            this.channel.next(split[split.length - 1]);
+            console.log(this.channel.getValue())
+        } else {
+            console.log(evt)
+        }
     }
 
     private onError(evt) {
@@ -42,7 +49,7 @@ export class SocketService {
     }
     
     private log(message) {
-        console.log(message)
+        console.log(message);
     }
 
     send(message) {
@@ -51,4 +58,9 @@ export class SocketService {
         }
     }
 
+    sendValue(value: number) {
+        if (this.connected.getValue() === true && this.channel.getValue()) {
+            this.websocket.send(`${this.channel.getValue()}=${value}`);
+        }
+    }
 }
