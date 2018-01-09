@@ -1,5 +1,13 @@
 <h1>
-    Socket Streamer</h1>
+    Socket Streamer
+</h1>
+<div>
+    Socket is
+    <span *ngIf="socketState">CONNECTED</span>
+    <span *ngIf="!socketState">DISCONNECTED</span>
+    <div class="circle" [ngClass]="{'on': socketState}"></div>
+    <p *ngIf="socketState">you are in lane: {{lane}}</p>
+</div>
 <div>
     <mat-form-field>
         <mat-select placeholder="Select control axis" [(value)]="selectedControlAxis">
@@ -10,10 +18,4 @@
     </mat-form-field>
     <mat-slider min="0" max="1" step="0.01" value="0" [(ngModel)]="value" (click)="send()"></mat-slider>
 </div>
-<p>you are in lane: {{lane}}</p>
 <app-canvas></app-canvas>
-
-<p>Socket is
-    <span *ngIf="socketState">CONNECTED</span>
-    <span *ngIf="!socketState">DISCONNECTED</span>
-</p>

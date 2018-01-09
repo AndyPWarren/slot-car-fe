@@ -1,0 +1,11 @@
+.circle {
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    border-radius: 100%;
+    background-color: red;
+}
+
+.on {
+    background-color: green;
+}
