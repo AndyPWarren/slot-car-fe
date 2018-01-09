@@ -1,10 +1,12 @@
-# Socket Streamer
+# Slot Car Frontend
+
+This project is the frontend for controlling the slot cars (via the slot car server). It is intended to be used with the accelerometer in a mobile phone but a slider is provided for testing on a desktop.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Run `ng serve --host <your-ip>` to start a dev server which allows access from a devices on the local network i.e. a mobile phone. Navigate to `http://<your-ip>:4200`
 
 ## Code scaffolding
 

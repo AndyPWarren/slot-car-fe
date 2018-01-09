@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('socket-streamer App', () => {
+describe('slot-car-fe App', () => {
   let page: AppPage;
 
   beforeEach(() => {
