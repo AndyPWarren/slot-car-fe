@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { HttpModule } from '@angular/http';
-import { LedsService } from './services/leds/leds.service';
 import { ColorConstants } from './canvas/color.constants';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -39,7 +38,6 @@ import { FormsModule } from '@angular/forms';
     providers: [
         AccelerometerService,
         SocketService,
-        LedsService,
         ColorConstants
     ],
     bootstrap: [AppComponent]

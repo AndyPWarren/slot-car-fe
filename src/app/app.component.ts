@@ -1,5 +1,4 @@
 import { AccelerometerService, Axis } from './services/accelerometer/accelerometer.service';
-import { LedsService } from './services/leds/leds.service';
 import { SocketService } from './services/socket/socket.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit {
     public message: string
 
     constructor(private socketService: SocketService,
-        private ledsService: LedsService,
         private accelerometerService: AccelerometerService) { }
 
     ngOnInit(): void {
