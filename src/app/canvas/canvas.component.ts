@@ -1,7 +1,7 @@
 import { AccelerometerService } from './../services/accelerometer/accelerometer.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild, ElementRef, AfterViewInit, Input, OnInit } from '@angular/core';
-import "rxjs/add/observable/timer";
+import 'rxjs/add/observable/timer';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { ColorConstants } from './color.constants';
@@ -15,14 +15,14 @@ class Pos {
     styleUrls: ['./canvas.component.css']
 })
 export class CanvasComponent implements AfterViewInit, OnDestroy {
-    
+
     @ViewChild('wrapper') public wrapper: ElementRef;
     @ViewChild('canvas') public canvas: ElementRef;
     private canvasEl: HTMLCanvasElement;
     private rect: ClientRect;
     private cx: CanvasRenderingContext2D;
     private prevPos: Pos;
-    private xIndex = 0
+    private xIndex = 0;
     private accelerometerSub: Subscription;
 
     constructor(private accelerometerService: AccelerometerService,
@@ -30,9 +30,10 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         this.createCanvas();
-        const initPos: Pos = { x: 0, y: this.rect.height }
+        const initPos: Pos = { x: 0, y: this.rect.height };
         this.prevPos = initPos;
-        this.accelerometerSub = this.accelerometerService.orientationStream.subscribe((event) => this.accelerometerHandler(event));
+        this.accelerometerSub = this.accelerometerService.
+            orientationStream.subscribe((event) => this.accelerometerHandler(event));
     }
 
     ngOnDestroy(): void {
@@ -40,7 +41,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     }
 
     accelerometerHandler(event: number) {
-        const current = this.createCurrentPos(event)
+        const current = this.createCurrentPos(event);
         this.drawOnCanvas(current, this.prevPos);
         if (this.xIndex === this.canvasEl.width) {
             this.resizeCanvasWidth(this.canvasEl.width + this.wrapper.nativeElement.clientWidth);
@@ -67,8 +68,8 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     }
 
     scrollWrapper() {
-        const wrapperEl: HTMLElement = this.wrapper.nativeElement
-        wrapperEl.scrollBy(this.wrapper.nativeElement.clientWidth, 0)
+        const wrapperEl: HTMLElement = this.wrapper.nativeElement;
+        wrapperEl.scrollBy(this.wrapper.nativeElement.clientWidth, 0);
     }
 
     resizeCanvasWidth(w: number) {

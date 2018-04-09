@@ -8,8 +8,8 @@ import 'rxjs/add/operator/takeUntil';
 
 @Injectable()
 export class AccelerometerService {
-    public orientationStream: BehaviorSubject<number> = new BehaviorSubject(0);
-    private maxY = 90;
+    public orientationStream: Subject<number> = new Subject();
+    private maxBeta = 90;
     private cancel$ = new Subject();
 
     constructor(private socketService: SocketService) {}
@@ -25,12 +25,12 @@ export class AccelerometerService {
     }
 
     private yHandler(event: DeviceOrientationEvent) {
-        const val = this.mapToRange(event.beta, this.maxY);
+        const val = this.mapToRange(event.beta);
         this.orientationStream.next(val);
         this.socketService.sendValue(val);
     }
 
-    private mapToRange(val: number, max: number): number {
-        return Math.abs(val) / max;
+    private mapToRange(val: number): number {
+        return Math.abs((Math.abs(val) - this.maxBeta) / this.maxBeta);
     }
 }
