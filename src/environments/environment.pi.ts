@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
     port: 9090,
-    host: 'raspberrypi'
+    host: '192.168.0.26'
 };

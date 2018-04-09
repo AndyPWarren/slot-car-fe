@@ -10,10 +10,10 @@ export class SocketService {
     private url = `ws://${environment.host}:${environment.port}`;
     private websocket: WebSocket;
     public channel: BehaviorSubject<string> = new BehaviorSubject('');
-    public connected: BehaviorSubject<boolean> = new BehaviorSubject(false); 
+    public connected: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     constructor() {
-        this.connect()
+        this.connect();
     }
 
     private connect() {
@@ -26,28 +26,28 @@ export class SocketService {
 
     private onOpen(evt) {
         this.connected.next(true);
-        this.log("CONNECTED");
+        this.log('CONNECTED');
     }
 
     private onClose(evt) {
         this.connected.next(false);
-        this.log("DISCONNECTED");
+        this.log('DISCONNECTED');
     }
 
     private onMessage(evt) {
         const split = evt.data.split('channel=');
         if (split.length > 1) {
             this.channel.next(split[split.length - 1]);
-            console.log(this.channel.getValue())
+            console.log(this.channel.getValue());
         } else {
-            console.log(evt)
+            console.log(evt);
         }
     }
 
     private onError(evt) {
         this.log(evt.data);
     }
-    
+
     private log(message) {
         console.log(message);
     }

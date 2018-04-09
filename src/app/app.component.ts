@@ -1,8 +1,9 @@
-import { AccelerometerService, Axis } from './services/accelerometer/accelerometer.service';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AccelerometerService } from './services/accelerometer/accelerometer.service';
 import { SocketService } from './services/socket/socket.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import "rxjs/add/observable/fromEvent"
+import 'rxjs/add/observable/fromEvent';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -11,35 +12,32 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
     public socketState: boolean;
     public lane: string;
-    public controlAxis: Axis[] = ['x', 'y'];
-    public selectedControlAxis: Axis = this.controlAxis[1];
     public value = 0;
 
-    public message: string
+    public message: string;
 
     constructor(private socketService: SocketService,
-        private accelerometerService: AccelerometerService) { }
+                private accelerometerService: AccelerometerService) { }
 
     ngOnInit(): void {
+        this.accelerometerService.watchSensor();
         this.socketService.connected.subscribe((connected) => {
             this.socketState = connected;
         });
         this.socketService.channel.subscribe((channel) => {
             this.lane = channel;
         });
-        this.setConfig();
     }
 
-    setConfig() {
-        console.log('setting config axis is', this.selectedControlAxis)
-        this.accelerometerService.axis = this.selectedControlAxis;
+    ngOnDestroy(): void {
+        this.accelerometerService.kill();
     }
 
     send() {
-        console.log(this.value)
         this.socketService.sendValue(this.value);
+        console.log(this.value);
     }
 }

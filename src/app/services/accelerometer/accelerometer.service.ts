@@ -2,48 +2,32 @@ import { Subscription } from 'rxjs/Subscription';
 import { SocketService } from './../socket/socket.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from "rxjs/BehaviorSubject"
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
-export type Axis = 'x' | 'y';
 @Injectable()
 export class AccelerometerService {
-    private maxX = 90;
-    private maxY = 180;
     public orientationStream: BehaviorSubject<number> = new BehaviorSubject(0);
-    sub: Subscription
-    public _axis: Axis
-    constructor(private socketService: SocketService) {
-        
+    private maxY = 90;
+    private cancel$ = new Subject();
+
+    constructor(private socketService: SocketService) {}
+
+    public watchSensor() {
+        Observable.fromEvent(window, 'deviceorientation')
+            .takeUntil(this.cancel$)
+            .subscribe((event: DeviceOrientationEvent) => this.yHandler(event));
     }
 
-    watchSensor() {
-        if (this.sub) {
-            this.sub.unsubscribe();
-        }
-        if (this._axis === 'x') {
-            this.sub = Observable.fromEvent(window, "deviceorientation")
-                .subscribe((event: DeviceOrientationEvent) => this.xHandler(event))
-        } else {
-            this.sub = Observable.fromEvent(window, "deviceorientation")
-                .subscribe((event: DeviceOrientationEvent) => this.yHandler(event))
-        }
-    }
-
-    private xHandler(event: DeviceOrientationEvent) {
-        const val = this.mapToRange(event.gamma, this.maxX)
-        this.orientationStream.next(val);
-        this.socketService.sendValue(val)
+    public kill() {
+        this.cancel$.next();
     }
 
     private yHandler(event: DeviceOrientationEvent) {
-        const val = this.mapToRange(event.beta, this.maxX)
+        const val = this.mapToRange(event.beta, this.maxY);
         this.orientationStream.next(val);
-        this.socketService.sendValue(val)
-    }
-
-    set axis(axis: Axis) {
-        this._axis = axis
-        this.watchSensor();
+        this.socketService.sendValue(val);
     }
 
     private mapToRange(val: number, max: number): number {
