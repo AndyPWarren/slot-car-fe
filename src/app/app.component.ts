@@ -30,10 +30,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.socketService.channel.subscribe((channel) => {
             this.lane = channel;
         });
+        this.accelerometerService.orientationStream.subscribe((val) => this.value = val);
     }
 
     ngOnDestroy(): void {
         this.accelerometerService.kill();
+    }
+
+    trigger(state: boolean) {
+        if (state === true) {
+            this.accelerometerService.resume();
+        } else {
+            this.accelerometerService.pause();
+        }
     }
 
     send() {

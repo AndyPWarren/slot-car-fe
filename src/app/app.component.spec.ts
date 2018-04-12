@@ -4,9 +4,12 @@ import { AppComponent } from './app.component';
 import { SocketService } from './services/socket/socket.service';
 import { AccelerometerService } from './services/accelerometer/accelerometer.service';
 import { ColorConstants } from './canvas/color.constants';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [MatSliderModule, FormsModule],
             declarations: [
                 AppComponent, CanvasComponent
             ],
