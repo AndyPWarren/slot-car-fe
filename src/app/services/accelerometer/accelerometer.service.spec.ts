@@ -94,12 +94,13 @@ describe('AccelerometerService', () => {
 
         service.pause();
         window.dispatchEvent(new DeviceOrientationEvent('deviceorientation', { beta: 45 }));
-        expect(sendValueSpy.calls.count()).toEqual(1);
-
-        service.resume();
-        window.dispatchEvent(new DeviceOrientationEvent('deviceorientation', { beta: 90 }));
         expect(sendValueSpy).toHaveBeenCalledWith(0);
         expect(sendValueSpy.calls.count()).toEqual(2);
+
+        service.resume();
+        window.dispatchEvent(new DeviceOrientationEvent('deviceorientation', { beta: 45 }));
+        expect(sendValueSpy).toHaveBeenCalledWith(0.5);
+        expect(sendValueSpy.calls.count()).toEqual(3);
     }));
 
     it('should keep emitting the orientation stream when calling pause and resume',
@@ -120,5 +121,17 @@ describe('AccelerometerService', () => {
         service.resume();
         window.dispatchEvent(new DeviceOrientationEvent('deviceorientation', { beta: 90 }));
         expect(expected).toEqual(0);
+    }));
+
+    it('should send a 0 to the socket when stream is paused',
+    inject([AccelerometerService], (service: AccelerometerService) => {
+        service.watchSensor();
+        service.resume();
+
+        window.dispatchEvent(new DeviceOrientationEvent('deviceorientation', { beta: 0 }));
+        expect(sendValueSpy).toHaveBeenCalledWith(1);
+
+        service.pause();
+        expect(sendValueSpy).toHaveBeenCalledWith(0);
     }));
 });

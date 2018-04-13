@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/never';
+import 'rxjs/add/observable/from';
 
 @Injectable()
 export class AccelerometerService {
@@ -36,7 +36,7 @@ export class AccelerometerService {
         source$.subscribe((val) => this.orientationStream.next(val));
 
         this.pauser$
-            .switchMap((paused) => paused ? source$ : Observable.never())
+            .switchMap((paused) => paused ? source$ : Observable.from([0]))
             .takeUntil(this.cancel$)
             .subscribe((val: number) => this.socketService.sendValue(val));
     }
