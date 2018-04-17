@@ -16,12 +16,14 @@ export class GaugeComponent implements OnInit {
     @HostBinding('style.height.px') height;
     @HostBinding('style.width.px') width;
     public lineVal = Range.MIN;
+    public on = false;
 
     constructor(private accelerometer: AccelerometerService) { }
 
     ngOnInit() {
-        this.accelerometer.orientationStream.subscribe((val) => {
-            this.lineVal = this.mapToRange(val);
+        this.accelerometer.orientationStream.subscribe((stream) => {
+            this.lineVal = this.mapToRange(stream.value);
+            this.on = stream.power;
         });
         this.height = this.size;
         this.width = this.size;

@@ -1,3 +1,4 @@
+import { Stream } from './stream';
 import { Subscription } from 'rxjs/Subscription';
 import { SocketService } from './../socket/socket.service';
 import { Injectable } from '@angular/core';
@@ -7,14 +8,15 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/from';
 
 @Injectable()
 export class AccelerometerService {
-    public orientationStream: Subject<number> = new Subject();
+    public orientationStream: Subject<Stream> = new Subject();
     private maxBeta = 90;
-    private cancel$ = new Subject();
-    private pauser$ = new Subject();
+    private cancel$: Subject<boolean> = new Subject();
+    private pauser$: Subject<boolean> = new Subject();
 
     constructor(private socketService: SocketService) {}
 
@@ -28,17 +30,24 @@ export class AccelerometerService {
      */
     public watchSensor() {
         const source$ = Observable.fromEvent(window, 'deviceorientation')
+            .skip(1)
             .map((e: DeviceOrientationEvent) => e.beta)
             .map((e: number) => this.mapOutOfRange(e))
             .map((e: number) => this.mapToRange(e))
             .takeUntil(this.cancel$);
 
-        source$.subscribe((val) => this.orientationStream.next(val));
+        this.pauser$
+            .switchMap((paused) => paused ?
+                source$.map((source: number) =>  new Stream(source, true)) :
+                source$.map((source: number) =>  new Stream(source, false)))
+            .subscribe((val: Stream) => this.orientationStream.next(val));
 
         this.pauser$
             .switchMap((paused) => paused ? source$ : Observable.from([0]))
             .takeUntil(this.cancel$)
             .subscribe((val: number) => this.socketService.sendValue(val));
+
+        this.pauser$.next(false);
     }
 
     /**

@@ -15,7 +15,6 @@ import fscreen from 'fscreen';
 export class AppComponent implements OnInit, OnDestroy {
     public socketState: boolean;
     public lane: string;
-    public value = 0;
 
     public message: string;
 
@@ -30,7 +29,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.socketService.channel.subscribe((channel) => {
             this.lane = channel;
         });
-        this.accelerometerService.orientationStream.subscribe((val) => this.value = val);
     }
 
     ngOnDestroy(): void {
@@ -43,11 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
         } else {
             this.accelerometerService.pause();
         }
-    }
-
-    send() {
-        this.socketService.sendValue(this.value);
-        console.log(this.value);
     }
 
     requestFullscreen() {
