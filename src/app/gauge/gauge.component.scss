@@ -5,6 +5,7 @@ $needle-width: 6px;
     display: block;
     position: relative;
     box-sizing: border-box;
+    margin: auto;
 }
 
 .gauge {
@@ -17,13 +18,14 @@ $needle-width: 6px;
     border-top-left-radius: 100%;
     border-bottom-color: transparent;
     border-bottom-right-radius: 100%;
+    box-sizing: border-box;
 }
 
 .needle {
     position: absolute;
-    top: calc(50% + #{$gauge-size});
-    left: calc(50% + #{$gauge-size} - 3px);
-    height: calc(50% + #{$gauge-size});
+    top: calc(50%);
+    left: calc(50% - 3px);
+    height: calc(50%);
     width: $needle-width;
     background-color: #FF0E00;
     transform-origin: top;

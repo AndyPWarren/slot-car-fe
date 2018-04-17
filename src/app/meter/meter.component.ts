@@ -31,7 +31,7 @@ export class MeterComponent implements AfterViewInit, AfterViewChecked {
 
     private createCanvas() {
         this.canvasEl = this.canvas.nativeElement;
-        this.canvasEl.height = this.height + (this.gaugeWidth * 2);
+        this.canvasEl.height = this.height;
         this.canvasEl.width = this.canvasEl.height;
         this.cx = this.canvasEl.getContext('2d');
         this.cx.lineWidth = this.gaugeWidth;

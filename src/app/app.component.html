@@ -13,7 +13,7 @@
     <span class="circle" [ngClass]="{'on': socketState}"></span>
 </p>
 <p *ngIf="socketState">you are in lane: {{lane}}</p>
-<app-gauge [size]="100"></app-gauge>
+<app-gauge [size]="130"></app-gauge>
 <button mat-raised-button color="primary" class="control" (touchstart)="trigger(true)" (touchend)="trigger(false)">
     Press &<br>hold
 </button>
