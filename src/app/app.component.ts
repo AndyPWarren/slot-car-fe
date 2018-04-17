@@ -1,11 +1,11 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AccelerometerService } from './services/accelerometer/accelerometer.service';
 import { SocketService } from './services/socket/socket.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { Subscription } from 'rxjs/Subscription';
+import fscreen from 'fscreen';
 
 @Component({
     selector: 'app-root',
@@ -48,5 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
     send() {
         this.socketService.sendValue(this.value);
         console.log(this.value);
+    }
+
+    requestFullscreen() {
+        fscreen.requestFullscreen(document.documentElement);
     }
 }

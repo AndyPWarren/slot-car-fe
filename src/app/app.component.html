@@ -1,16 +1,19 @@
 <h1>
     Slot Car
 </h1>
-<div>
+<button
+    mat-raised-button
+    color="primary"
+    id="fullscreen"
+    (click)="requestFullscreen()">Enter full screen</button>
+<p>
     Track is
     <span *ngIf="socketState">CONNECTED</span>
     <span *ngIf="!socketState">DISCONNECTED</span>
-    <div class="circle" [ngClass]="{'on': socketState}"></div>
-    <p *ngIf="socketState">you are in lane: {{lane}}</p>
-</div>
+    <span class="circle" [ngClass]="{'on': socketState}"></span>
+</p>
+<p *ngIf="socketState">you are in lane: {{lane}}</p>
 <app-gauge [size]="100"></app-gauge>
-<button mat-button class="control"
-        (touchstart)="trigger(true)"
-        (touchend)="trigger(false)">
-    GO!!
+<button mat-raised-button color="primary" class="control" (touchstart)="trigger(true)" (touchend)="trigger(false)">
+    Press &<br>hold
 </button>
