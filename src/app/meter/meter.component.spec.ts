@@ -1,24 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CanvasComponent } from './canvas.component';
+import { MeterComponent } from './meter.component';
 import { AccelerometerService } from '../services/accelerometer/accelerometer.service';
 import { SocketService } from '../services/socket/socket.service';
-import { ColorConstants } from './color.constants';
 
-describe('CanvasComponent', () => {
-    let component: CanvasComponent;
-    let fixture: ComponentFixture<CanvasComponent>;
+describe('MeterComponent', () => {
+    let component: MeterComponent;
+    let fixture: ComponentFixture<MeterComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [CanvasComponent],
-            providers: [AccelerometerService, SocketService, ColorConstants]
+            declarations: [MeterComponent],
+            providers: [AccelerometerService, SocketService]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(CanvasComponent);
+        fixture = TestBed.createComponent(MeterComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
