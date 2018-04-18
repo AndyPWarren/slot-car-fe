@@ -16,13 +16,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { GaugeComponent } from './gauge/gauge.component';
+import { FullscreenComponent } from './fullscreen/fullscreen.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         MeterComponent,
-        GaugeComponent
+        GaugeComponent,
+        FullscreenComponent
     ],
     imports: [
         BrowserAnimationsModule,

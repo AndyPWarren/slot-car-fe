@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import { Subscription } from 'rxjs/Subscription';
-import fscreen from 'fscreen';
+
 
 @Component({
     selector: 'app-root',
@@ -15,7 +15,6 @@ import fscreen from 'fscreen';
 export class AppComponent implements OnInit, OnDestroy {
     public socketState: boolean;
     public lane: string;
-
     public message: string;
 
     constructor(private socketService: SocketService,
@@ -41,9 +40,5 @@ export class AppComponent implements OnInit, OnDestroy {
         } else {
             this.accelerometerService.pause();
         }
-    }
-
-    requestFullscreen() {
-        fscreen.requestFullscreen(document.documentElement);
     }
 }

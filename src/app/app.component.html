@@ -1,11 +1,7 @@
 <h1>
     Slot Car
 </h1>
-<button
-    mat-raised-button
-    color="primary"
-    id="fullscreen"
-    (click)="requestFullscreen()">Enter full screen</button>
+<app-fullscreen></app-fullscreen>
 <p>
     Track is
     <span *ngIf="socketState">CONNECTED</span>

@@ -1,0 +1,8 @@
+<button
+    mat-raised-button
+    color="primary"
+    id="fullscreen"
+    (click)="requestFullscreen()">
+    <span *ngIf="!fullscreen">Enter</span>
+    <span *ngIf="fullscreen">Exit</span> full screen
+</button>

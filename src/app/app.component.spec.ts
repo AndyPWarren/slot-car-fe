@@ -1,3 +1,4 @@
+import { FullscreenComponent } from './fullscreen/fullscreen.component';
 import { GaugeComponent } from './gauge/gauge.component';
 import { MeterComponent } from './meter/meter.component';
 import { TestBed, async } from '@angular/core/testing';
@@ -7,7 +8,6 @@ import { AccelerometerService } from './services/accelerometer/accelerometer.ser
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import fscreen from 'fscreen';
 
 describe('AppComponent', () => {
     let fixture;
@@ -16,7 +16,7 @@ describe('AppComponent', () => {
         TestBed.configureTestingModule({
             imports: [MatSliderModule, FormsModule],
             declarations: [
-                AppComponent, GaugeComponent, MeterComponent
+                AppComponent, GaugeComponent, MeterComponent, FullscreenComponent
             ],
             providers: [SocketService, AccelerometerService]
         }).compileComponents();
@@ -27,9 +27,4 @@ describe('AppComponent', () => {
     it('should create the app', async(() => {
         expect(component).toBeTruthy();
     }));
-    it('should enter full screen mode when button is clicked', () => {
-        const spy = spyOn(fscreen, 'requestFullscreen');
-        fixture.debugElement.query(By.css('#fullscreen')).nativeElement.click();
-        expect(spy).toHaveBeenCalledWith(document.documentElement);
-    });
 });
