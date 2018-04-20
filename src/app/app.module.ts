@@ -40,7 +40,11 @@ import { FullscreenComponent } from './fullscreen/fullscreen.component';
     ],
     providers: [
         AccelerometerService,
-        SocketService
+        SocketService,
+        {
+            provide: Window,
+            useValue: window
+        }
     ],
     bootstrap: [AppComponent]
 })
