@@ -8,17 +8,43 @@ import { AccelerometerService } from './services/accelerometer/accelerometer.ser
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 describe('AppComponent', () => {
     let fixture;
     let component;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [MatSliderModule, FormsModule],
-            declarations: [
-                AppComponent, GaugeComponent, MeterComponent, FullscreenComponent
+            imports: [
+                MatSliderModule,
+                FormsModule
             ],
-            providers: [SocketService, AccelerometerService]
+            declarations: [
+                AppComponent,
+                GaugeComponent,
+                MeterComponent,
+                FullscreenComponent
+            ],
+            providers: [
+                {
+                    provide: SocketService,
+                    useValue: {
+                        sendValue: () => {},
+                        connected: new Subject(),
+                        channel: new Subject()
+                    }
+                },
+                {
+                    provide: AccelerometerService,
+                    useValue: {
+                        watchSensor: jasmine.createSpy('watchSensor'),
+                        kill: jasmine.createSpy('kill'),
+                        pause: jasmine.createSpy('pause'),
+                        resume: jasmine.createSpy('resume'),
+                        orientationStream: new Subject()
+                    }
+                }
+            ]
         }).compileComponents();
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.debugElement.componentInstance;

@@ -15,7 +15,12 @@ describe('AccelerometerService', () => {
         TestBed.configureTestingModule({
             providers: [
                 AccelerometerService,
-                SocketService
+                {
+                    provide: SocketService,
+                    useValue: {
+                        sendValue: () => {}
+                    }
+                }
             ]
         });
         mockSocketService = TestBed.get(SocketService);

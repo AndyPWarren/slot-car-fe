@@ -1,6 +1,10 @@
+import { AccelerometerService } from './../services/accelerometer/accelerometer.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MeterComponent } from './../meter/meter.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GaugeComponent } from './gauge.component';
+import { Stream } from '../services/accelerometer/stream';
 
 class TestCase {
     input: number;
@@ -10,10 +14,22 @@ class TestCase {
 describe('GaugeComponent', () => {
     let component: GaugeComponent;
     let fixture: ComponentFixture<GaugeComponent>;
+    const mockAccelService = {
+        orientationStream: new BehaviorSubject<Stream>(new Stream(1, true)),
+    };
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [GaugeComponent]
+            declarations: [
+                GaugeComponent,
+                MeterComponent,
+            ],
+            providers: [
+                {
+                    provide: AccelerometerService,
+                    useValue: mockAccelService
+                }
+            ]
         })
             .compileComponents();
     }));
@@ -21,6 +37,7 @@ describe('GaugeComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(GaugeComponent);
         component = fixture.componentInstance;
+        component.size = 50;
         fixture.detectChanges();
     });
 
