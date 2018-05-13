@@ -1,6 +1,6 @@
 # Slot Car Frontend
 
-This project is the frontend for controlling the slot cars (via the slot car server). It is intended to be used with the accelerometer in a mobile phone but a slider is provided for testing on a desktop.
+This project is the frontend web client for controlling the slot cars (via the slot car server) using the accelerometer in a mobile device
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
 
